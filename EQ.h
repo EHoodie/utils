@@ -9,11 +9,15 @@ template<typename T>
 class EQNode {
 	public:
 		EQNode();
+		EQNode(EQNode<T>* blockPtr);
 		EQNode(T* userData);
 
+		bool isFree() const;
 		bool isBlockPtr() const;
-		const EQNode* getBlockPtr() const;
+		const EQNode<T>* getBlockPtr() const;
+		bool setBlockPtr(EQNode<T>* blockPtr);
 		T* getUserData() const;
+		bool setUserData(T* userData);
 
 		virtual ~EQNode();
 
@@ -45,6 +49,15 @@ class EQ {
 		long size() const;
 
 		virtual ~EQ();
+
+	private:
+		EQNode<T>* findFreeNode() const;
+		EQNode<T>* findFreeNodeInBlock(EQNode<T>* tailPtr) const;
+		void addNextBlock(EQNode<T>* tailPtr);
+		void createInitialBlock();
+
+		EQNode<T>* createBlock() const;
+		EQNode<T>* createBlockPtrNode(EQNode<T>* blockPtr) const;
 
 	private:
 		long m_size;
